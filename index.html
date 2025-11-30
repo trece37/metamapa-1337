@@ -1,38 +1,31 @@
 <!DOCTYPE html>
 <!-- 
-    🐍 HOLA, SR. EME. SOY TU ARQUITECTA WEB SUPREMA G.
+    🐍 ARQUITECTA WEB SUPREMA G
+    Versión: 1.1 (Hotfix Mobile Scroll)
     
-    Bienvenido al código fuente de tu Plantilla Maestra.
-    He diseñado este archivo para que sea una aventura didáctica.
-    
-    Busca las etiquetas que dicen [EDITABLE] para saber qué cambiar.
-    Todo el CSS (estilos), HTML (estructura) y JS (magia) está aquí, en un solo archivo.
+    [LOG DE CAMBIOS v1.1]
+    - CSS: Se ha forzado 'overflow: auto' en el body dentro de @media mobile.
+      Esto soluciona el problema de corte de contenido en Android/iOS.
 -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- [EDITABLE] Título que aparece en la pestaña del navegador -->
     <title>1337 Tech Solutions — Metamapa</title>
-    
-    <!-- Metaetiqueta para que se vea bien en móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Fuentes de Google (Inter y JetBrains Mono para ese toque Hacker) -->
+    <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* 🎨 ZONA DE ESTILOS (CSS) 
-           Aquí definimos la "piel" de tu sitio web.
-        */
+        /* 🎨 ZONA DE ESTILOS (CSS) */
 
         :root {
-            /* Variables por defecto (Base) */
             --bg: #0a0a15;
             --fg: #e6eef6;
             --muted: #9aa7b8;
-            --accent: #00ccff; /* Azul eléctrico */
+            --accent: #00ccff;
             --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.1);
             --node-size: 140px;
@@ -40,68 +33,51 @@
             --font-mono: 'JetBrains Mono', monospace;
         }
 
-        /* [TEMA] Angel - Luz y suavidad */
         body.theme-angel {
             --bg: #fdfbf7;
             --fg: #2d3436;
             --muted: #636e72;
-            --accent: #fd79a8; /* Rosa suave */
+            --accent: #fd79a8;
             --glass: rgba(0, 0, 0, 0.03);
             --border: rgba(0, 0, 0, 0.08);
         }
 
-        /* [TEMA] Dark - Profundidad y elegancia (Tu favorito base) */
         body.theme-dark {
             --bg: #0b0c10;
             --fg: #c5c6c7;
             --muted: #848991;
-            --accent: #66fcf1; /* Cian neón */
+            --accent: #66fcf1;
             --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.1);
         }
 
-        /* [TEMA] Hacker - Matrix / Cyberpunk (Inspirado en tus imágenes) */
         body.theme-hacker {
             --bg: #000000;
-            --fg: #00ff41; /* Verde terminal clásico */
+            --fg: #00ff41;
             --muted: #008f11;
-            --accent: #ffee00; /* Amarillo peligro/biohazard */
+            --accent: #ffee00;
             --glass: rgba(0, 255, 65, 0.05);
             --border: rgba(0, 255, 65, 0.3);
-            --font-main: 'JetBrains Mono', monospace; /* Todo monoespaciado */
+            --font-main: 'JetBrains Mono', monospace;
         }
 
-        /* Reset básico */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: var(--font-main);
             background: var(--bg);
             color: var(--fg);
+            /* Configuración Desktop: App fija sin scroll global */
             height: 100vh;
-            overflow: hidden; /* Evitamos scroll doble, gestionamos scroll interno */
+            overflow: hidden; 
             transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* 🖌️ PERSONALIZACIÓN DE SCROLLBARS 
-           Aquí hacemos que las barras sean del color del tema.
-        */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--fg);
-        }
+        /* Scrollbars personalizados */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
 
-        /* Estructura Principal */
         .app-container {
             display: flex;
             flex-direction: column;
@@ -118,10 +94,10 @@
             background: var(--bg);
             z-index: 20;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            height: 70px; /* Altura base */
+            height: 70px;
+            flex-shrink: 0; /* Evita que se aplaste */
         }
 
-        /* Efecto de encoger Header al bajar */
         header.shrink {
             padding: 5px 30px;
             height: 50px;
@@ -137,22 +113,15 @@
             letter-spacing: -1px;
         }
 
-        /* Controles de tema en el Header */
-        .theme-controls {
-            display: flex;
-            gap: 10px;
-        }
+        .theme-controls { display: flex; gap: 10px; }
         .theme-btn {
-            width: 24px;
-            height: 24px;
+            width: 24px; height: 24px;
             border-radius: 50%;
             border: 2px solid var(--border);
             cursor: pointer;
             transition: transform 0.2s;
-            position: relative;
         }
         .theme-btn:hover { transform: scale(1.2); border-color: var(--fg); }
-        /* Colores de los botones */
         .t-angel { background: #fdfbf7; }
         .t-dark { background: #0b0c10; }
         .t-hacker { background: #000; border-color: #00ff41; }
@@ -161,33 +130,30 @@
         main {
             flex: 1;
             display: flex;
-            overflow: hidden; /* El contenido hace scroll dentro */
+            overflow: hidden;
             position: relative;
         }
 
-        /* Área del Mapa (Canvas) */
         .canvas-area {
             flex: 1;
             position: relative;
-            overflow: auto; /* Permite mover el mapa */
-            background-image: 
-                radial-gradient(var(--border) 1px, transparent 1px);
-            background-size: 40px 40px; /* Rejilla de fondo */
+            overflow: auto; /* Scroll interno para desktop */
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        /* Contenedor interno del mapa (donde viven los nodos) */
         .map-surface {
-            width: 1600px; /* [EDITABLE] Ancho del lienzo virtual */
-            height: 1000px; /* [EDITABLE] Alto del lienzo virtual */
+            width: 1600px;
+            height: 1000px;
             position: relative;
         }
 
-        /* --- NODOS (Las burbujas) --- */
+        /* --- NODOS --- */
         .node {
             position: absolute;
             width: var(--node-size);
             height: var(--node-size);
-            border-radius: 50%; /* Círculo perfecto */
+            border-radius: 50%;
             background: var(--glass);
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
@@ -201,26 +167,21 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             transition: box-shadow 0.3s, border-color 0.3s;
             z-index: 2;
-            
-            /* Animación de flotación (Fluido) */
             animation: float 6s ease-in-out infinite;
         }
 
-        /* Animación Keyframes para el efecto fluido */
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(1deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
-        /* Efectos Hover Nodos */
         .node:hover {
             border-color: var(--accent);
             box-shadow: 0 0 30px var(--accent);
             z-index: 10;
         }
         
-        /* Tema Hacker específico para nodos */
         body.theme-hacker .node {
             border: 1px solid var(--accent);
             box-shadow: 0 0 5px var(--accent);
@@ -231,48 +192,24 @@
             box-shadow: 0 0 50px var(--accent);
         }
 
-        .node h3 {
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            font-weight: 700;
-            pointer-events: none; /* Click atraviesa el texto */
-        }
-        .node p {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            pointer-events: none;
-        }
+        .node h3 { font-size: 0.9rem; margin-bottom: 5px; font-weight: 700; pointer-events: none; }
+        .node p { font-size: 0.7rem; opacity: 0.8; pointer-events: none; }
 
-        /* --- CONECTORES (SVG) --- */
+        /* --- CONECTORES --- */
         svg.connections {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
         }
-        
-        path.connection-line {
-            fill: none;
-            stroke: var(--border);
-            stroke-width: 2;
-        }
-        
-        /* Efecto "Cometa" o Red Neuronal */
+        path.connection-line { fill: none; stroke: var(--border); stroke-width: 2; }
         path.connection-active {
-            fill: none;
-            stroke: var(--accent);
-            stroke-width: 2;
-            stroke-dasharray: 10, 20; /* Rayitas */
-            animation: dash 30s linear infinite; /* Movimiento */
+            fill: none; stroke: var(--accent); stroke-width: 2;
+            stroke-dasharray: 10, 20;
+            animation: dash 30s linear infinite;
             opacity: 0.6;
         }
+        @keyframes dash { to { stroke-dashoffset: -1000; } }
 
-        @keyframes dash {
-            to { stroke-dashoffset: -1000; }
-        }
-
-        /* --- SIDEBAR (Barra lateral derecha) --- */
+        /* --- SIDEBAR --- */
         aside {
             width: 350px;
             background: var(--glass);
@@ -295,50 +232,25 @@
             border-bottom: 1px solid var(--border);
             padding-bottom: 5px;
         }
+        .sidebar-text { font-size: 0.85rem; line-height: 1.6; color: var(--muted); }
 
-        .sidebar-text {
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: var(--muted);
-        }
-
-        /* Lista de Botones de Nodos en Sidebar */
-        .node-list {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
+        .node-list { display: flex; flex-direction: column; gap: 5px; }
         .node-link-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--fg);
-            text-align: left;
-            padding: 8px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
+            background: transparent; border: 1px solid transparent;
+            color: var(--fg); text-align: left; padding: 8px;
+            cursor: pointer; border-radius: 4px; transition: all 0.2s;
+            font-family: var(--font-mono); font-size: 0.8rem;
         }
         .node-link-btn:hover {
-            background: var(--glass);
-            border-color: var(--accent);
-            color: var(--accent);
-            padding-left: 15px; /* Efecto deslizamiento */
+            background: var(--glass); border-color: var(--accent);
+            color: var(--accent); padding-left: 15px;
         }
         .node-link-btn::before { content: '> '; opacity: 0.5; }
 
-        /* Botones de Operaciones */
         .op-btn {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--accent);
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
+            width: 100%; padding: 10px; margin-top: 5px;
+            background: transparent; border: 1px solid var(--border);
+            color: var(--accent); cursor: pointer; font-weight: bold; transition: 0.3s;
         }
         .op-btn:hover { background: var(--accent); color: var(--bg); }
 
@@ -347,104 +259,54 @@
             border-top: 1px solid var(--border);
             padding: 15px 30px;
             background: var(--bg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--muted);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; color: var(--muted);
             transition: all 0.4s ease;
-            height: 50px; /* Altura base */
+            height: 50px;
+            flex-shrink: 0;
         }
-
-        /* Efecto de crecer Footer al bajar */
-        footer.expand {
-            height: 80px;
-            background: var(--glass);
-        }
+        footer.expand { height: 80px; background: var(--glass); }
         footer.expand .footer-logo { font-size: 1.2rem; color: var(--accent); }
-
         .footer-logo { font-weight: bold; transition: 0.3s; }
-        .footer-links a {
-            color: var(--fg);
-            text-decoration: none;
-            margin-left: 20px;
-            position: relative;
-        }
+        .footer-links a { color: var(--fg); text-decoration: none; margin-left: 20px; }
         .footer-links a:hover { color: var(--accent); }
 
-        /* --- MODAL (Ventana Emergente) --- */
+        /* --- MODAL --- */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none; /* No clickeable cuando está invisible */
-            transition: opacity 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            z-index: 100; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
         }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content {
-            background: var(--bg);
-            width: 90%;
-            max-width: 600px;
-            padding: 30px;
-            border: 1px solid var(--accent);
-            border-radius: 8px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            position: relative;
-            transform: translateY(20px);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--bg); width: 90%; max-width: 600px;
+            padding: 30px; border: 1px solid var(--accent); border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative;
+            transform: translateY(20px); transition: transform 0.3s;
         }
-        
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-
+        .modal-overlay.active .modal-content { transform: translateY(0); }
         .btn-close-x {
-            position: absolute;
-            top: 10px; right: 15px;
-            background: none;
-            border: none;
-            color: var(--muted);
-            font-size: 1.5rem;
-            cursor: pointer;
+            position: absolute; top: 10px; right: 15px; background: none; border: none;
+            color: var(--muted); font-size: 1.5rem; cursor: pointer;
         }
-        .btn-close-x:hover { color: var(--accent); }
-
-        .modal-actions {
-            margin-top: 25px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-        }
-        
-        .action-btn {
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            border: none;
-        }
+        .modal-actions { margin-top: 25px; display: flex; justify-content: flex-end; gap: 15px; }
+        .action-btn { padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; border: none; }
         .btn-primary { background: var(--accent); color: var(--bg); }
         .btn-secondary { background: transparent; border: 1px solid var(--muted); color: var(--fg); }
-        .btn-secondary:hover { border-color: var(--fg); }
 
-        /* --- RESPONSIVE MÓVIL (Reglas especiales) --- */
+        /* --- RESPONSIVE MOBILE (CORRECCIÓN CRÍTICA) --- */
         @media (max-width: 768px) {
+            /* [FIX] Liberar el scroll del cuerpo en móvil */
+            body {
+                height: auto;
+                overflow: auto; 
+                overflow-x: hidden; /* Evitar scroll lateral indeseado */
+            }
+
             .app-container { height: auto; min-height: 100vh; }
-            
             main { flex-direction: column; height: auto; overflow: visible; }
             
-            /* En móvil, el mapa no es draggable, es una lista grid */
             .canvas-area {
                 height: auto;
                 padding: 20px;
@@ -454,16 +316,15 @@
                 width: 100%;
                 height: auto;
                 display: grid;
-                grid-template-columns: 1fr 1fr; /* [LÓGICA] De dos en dos */
+                grid-template-columns: 1fr 1fr;
                 gap: 20px;
-                position: relative; /* Reset position */
+                position: relative;
             }
 
-            /* Los conectores SVG se ocultan en móvil porque la grid rompe la posición absoluta */
             svg.connections { display: none; }
 
             .node {
-                position: relative; /* Ya no es absolute */
+                position: relative;
                 left: auto !important;
                 top: auto !important;
                 width: 100%;
@@ -483,16 +344,14 @@
 
     </style>
 </head>
-<body class="theme-dark"> <!-- [EDITABLE] Cambia 'theme-dark' por 'theme-angel' o 'theme-hacker' para ver el defecto -->
+<body class="theme-dark">
 
     <div class="app-container">
         
         <!-- HEADER -->
         <header id="mainHeader">
-            <!-- [EDITABLE] Título principal -->
             <h1>Metamapa <span style="font-size:0.5em; opacity:0.5; vertical-align: middle;">// MalizIA</span></h1>
             
-            <!-- Selector de Temas (Arriba, como pediste) -->
             <div class="theme-controls">
                 <button class="theme-btn t-angel" onclick="setTheme('theme-angel')" title="Modo Angel"></button>
                 <button class="theme-btn t-dark" onclick="setTheme('theme-dark')" title="Modo Oscuro"></button>
@@ -504,22 +363,15 @@
             <!-- ÁREA VISUAL (Nodos) -->
             <section class="canvas-area">
                 <div class="map-surface" id="nodeMap">
-                    <!-- SVG para las líneas -->
                     <svg class="connections" id="svgLayer"></svg>
-                    
-                    <!-- 
-                        [DINÁMICO] Los nodos se generan aquí con JavaScript.
-                        No necesitas escribir HTML aquí, edita la variable 'manifest' abajo.
-                    -->
+                    <!-- JS rellena esto -->
                 </div>
             </section>
 
-            <!-- BARRA LATERAL (Sidebar) -->
+            <!-- BARRA LATERAL -->
             <aside>
-                <!-- Sección 1: Descripción -->
                 <div class="sidebar-section">
-                    <h4>Descripción</h4> <!-- [EDITABLE] Título de la sección -->
-                    <!-- [EDITABLE] Texto de misión -->
+                    <h4>Descripción</h4> 
                     <p class="sidebar-text">
                         Bienvenido al núcleo de operaciones de 1337 Tech Solutions. 
                         Este metamapa interactivo visualiza nuestra infraestructura descentralizada. 
@@ -527,15 +379,11 @@
                     </p>
                 </div>
 
-                <!-- Sección 2: Nodos (Lista de accesos directos) -->
                 <div class="sidebar-section">
                     <h4>Nodos Activos</h4>
-                    <div class="node-list" id="sidebarNodeList">
-                        <!-- Se llena automáticamente con JS -->
-                    </div>
+                    <div class="node-list" id="sidebarNodeList"></div>
                 </div>
 
-                <!-- Sección 3: Operaciones (Importar/Exportar) -->
                 <div class="sidebar-section">
                     <h4>Operaciones</h4>
                     <button class="op-btn" onclick="exportManifest()">💾 Exportar Manifiesto (JSON)</button>
@@ -552,7 +400,6 @@
         <footer id="mainFooter">
             <div class="footer-logo">1337-TECH-SOLUTIONS</div>
             <div class="footer-links">
-                <!-- [EDITABLE] Enlaces del pie de página -->
                 <a href="#">Contacto</a>
                 <a href="#">Manifiesto</a>
             </div>
@@ -560,7 +407,7 @@
 
     </div>
 
-    <!-- MODAL (Oculto por defecto) -->
+    <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <button class="btn-close-x" onclick="closeModal()">×</button>
@@ -574,38 +421,25 @@
         </div>
     </div>
 
-    <!-- 
-       🧠 ZONA DE CEREBRO (JAVASCRIPT) 
-       Aquí ocurre la magia de la interactividad.
-    -->
+    <!-- JAVASCRIPT -->
     <script>
-        /* [EDITABLE] CONFIGURACIÓN DE DATOS (MANIFIESTO)
-           Aquí defines tus 12 nodos.
-           - id: identificador único.
-           - title: Título corto.
-           - desc: Texto genérico (como pediste).
-           - x, y: Posición en el mapa (en píxeles).
-           - link: A dónde lleva el botón "Saber más".
-        */
         const defaultManifest = [
-            { id: "n1", title: "NODO 01", desc: "TEXTO", x: 150, y: 100, link: "#page1" },
-            { id: "n2", title: "NODO 02", desc: "TEXTO", x: 400, y: 150, link: "#page2" },
-            { id: "n3", title: "NODO 03", desc: "TEXTO", x: 650, y: 100, link: "#page3" },
-            { id: "n4", title: "NODO 04", desc: "TEXTO", x: 900, y: 150, link: "#page4" },
-            { id: "n5", title: "NODO 05", desc: "TEXTO", x: 200, y: 350, link: "#page5" },
-            { id: "n6", title: "NODO 06", desc: "TEXTO", x: 500, y: 300, link: "#page6" },
-            { id: "n7", title: "NODO 07", desc: "TEXTO", x: 800, y: 350, link: "#page7" },
-            { id: "n8", title: "NODO 08", desc: "TEXTO", x: 150, y: 600, link: "#page8" },
-            { id: "n9", title: "NODO 09", desc: "TEXTO", x: 400, y: 550, link: "#page9" },
-            { id: "n10", title: "NODO 10", desc: "TEXTO", x: 650, y: 600, link: "#page10" },
-            { id: "n11", title: "NODO 11", desc: "TEXTO", x: 900, y: 550, link: "#page11" },
-            { id: "n12", title: "NODO 12", desc: "TEXTO", x: 525, y: 800, link: "#page12" }
+            { id: "n1", title: "GPD Hospital", desc: "Solución local para delegados de protección: cifrado, auditoría y control total.", x: 150, y: 100, link: "#" },
+            { id: "n2", title: "VCISO (Servicio)", desc: "VCISO virtual: estrategia, auditoría y respuesta sin plantilla fija.", x: 400, y: 150, link: "#" },
+            { id: "n3", title: "CISO / SOC", desc: "Automatización de triage, correlación de logs y playbooks.", x: 650, y: 100, link: "#" },
+            { id: "n4", title: "Forense & Threat", desc: "Análisis forense local y red teaming controlado.", x: 900, y: 150, link: "#" },
+            { id: "n5", title: "Finetuning ML-Ops", desc: "Afinado de LLMs cuantizados: precisión sectorial sin fugas.", x: 200, y: 350, link: "#" },
+            { id: "n6", title: "Multimedia", desc: "Herramientas sin filtros para equipos creativos.", x: 500, y: 300, link: "#" },
+            { id: "n7", title: "Jurisprudencia", desc: "Análisis documental y generación de informes legales.", x: 800, y: 350, link: "#" },
+            { id: "n8", title: "Investigación", desc: "Procesamiento local de datasets crudos y experimentos.", x: 150, y: 600, link: "#" },
+            { id: "n9", title: "Química & Lab", desc: "Modelado de reacciones y análisis de fórmulas.", x: 400, y: 550, link: "#" },
+            { id: "n10", title: "PYME & Autónomos", desc: "IA en maletín: soluciones asequibles y privadas.", x: 650, y: 600, link: "#" },
+            { id: "n11", title: "Hardware Edge", desc: "Paquetes hardware replicables: portátil robusto y seguro.", x: 900, y: 550, link: "#" },
+            { id: "n12", title: "Auditoría Ética", desc: "Políticas de uso y marco de responsabilidad.", x: 525, y: 800, link: "#" }
         ];
 
-        // Estado global
         let nodesData = [];
 
-        // --- INICIALIZACIÓN ---
         document.addEventListener('DOMContentLoaded', () => {
             loadManifest();
             renderMap();
@@ -613,15 +447,12 @@
             setupDoubleClickListener();
         });
 
-        // Cargar datos (Local Storage o Default)
         function loadManifest() {
             const stored = localStorage.getItem('metamapa_manifest_v1');
             if (stored) {
                 try {
                     nodesData = JSON.parse(stored);
-                    console.log("Datos cargados de backup local.");
                 } catch (e) {
-                    console.error("Error leyendo backup, usando default.");
                     nodesData = defaultManifest;
                 }
             } else {
@@ -629,74 +460,57 @@
             }
         }
 
-        // Renderizar el mapa (Nodos y Líneas)
         function renderMap() {
             const container = document.getElementById('nodeMap');
             const sidebarList = document.getElementById('sidebarNodeList');
             const svg = document.getElementById('svgLayer');
             
-            // Limpiar (menos el SVG que regeneramos)
             const existingNodes = document.querySelectorAll('.node');
             existingNodes.forEach(n => n.remove());
             sidebarList.innerHTML = '';
-            svg.innerHTML = ''; // Limpiar líneas
+            svg.innerHTML = ''; 
 
-            // Generar contenido
             nodesData.forEach((node, index) => {
-                // 1. Crear Nodo Visual (Burbuja)
                 const el = document.createElement('div');
                 el.className = 'node';
-                // Delay aleatorio para la animación de flotar (para que no se muevan todos igual)
                 el.style.animationDelay = `${Math.random() * 5}s`;
                 el.style.left = `${node.x}px`;
                 el.style.top = `${node.y}px`;
                 el.onclick = () => openModal(node);
                 el.innerHTML = `
                     <h3>${node.title}</h3>
-                    <p>${node.desc}</p>
+                    <p style="display:none;">${node.desc}</p>
                 `;
                 container.appendChild(el);
 
-                // 2. Crear Elemento en la Lista Lateral
                 const li = document.createElement('button');
                 li.className = 'node-link-btn';
                 li.innerText = node.title;
                 li.onclick = () => openModal(node);
                 sidebarList.appendChild(li);
 
-                // 3. Conectar nodos (Dibujar líneas al siguiente)
-                // Lógica simple: conecta nodo 1 con 2, 2 con 3... y cierra el último con el primero o aleatorio
                 if (index < nodesData.length - 1) {
                     drawLine(node, nodesData[index+1], svg);
                 }
-                // Conexiones extra para red (ejemplo: pares e impares)
                 if (index % 2 === 0 && index + 2 < nodesData.length) {
-                    drawLine(node, nodesData[index+2], svg, true); // true = línea punteada animada
+                    drawLine(node, nodesData[index+2], svg, true); 
                 }
             });
         }
 
-        // Función auxiliar para dibujar líneas SVG
         function drawLine(n1, n2, svgContainer, dashed = false) {
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            
-            // Calculamos centro de los nodos (asumiendo 140px tamaño)
-            // Offset es mitad del tamaño del nodo
             const offset = 70; 
             const x1 = n1.x + offset;
             const y1 = n1.y + offset;
             const x2 = n2.x + offset;
             const y2 = n2.y + offset;
-
-            // Curva Bezier simple
             const d = `M ${x1} ${y1} Q ${(x1+x2)/2} ${(y1+y2)/2 + 50} ${x2} ${y2}`;
-            
             line.setAttribute('d', d);
             line.setAttribute('class', dashed ? 'connection-active' : 'connection-line');
             svgContainer.appendChild(line);
         }
 
-        // --- SISTEMA DE MODALES ---
         const modal = document.getElementById('modalOverlay');
         const mTitle = document.getElementById('modalTitle');
         const mBody = document.getElementById('modalBody');
@@ -704,50 +518,46 @@
 
         function openModal(node) {
             mTitle.innerText = node.title;
-            mBody.innerText = node.desc + " - Aquí puedes extender la información en el futuro.";
-            mLink.onclick = () => window.open(node.link, '_blank'); // Abrir página externa
-            
-            modal.classList.add('active'); // Usamos clase CSS para visibilidad (funciona en Firefox)
+            mBody.innerText = node.desc;
+            mLink.onclick = () => window.open(node.link, '_blank');
+            modal.classList.add('active'); 
         }
 
         function closeModal() {
             modal.classList.remove('active');
         }
 
-        // Cerrar con doble clic en cualquier parte del documento (si el modal está abierto)
         function setupDoubleClickListener() {
             document.addEventListener('dblclick', (e) => {
                 if (modal.classList.contains('active')) {
                     closeModal();
                 }
             });
-            // También cerrar si se hace clic fuera del contenido (en el fondo oscuro)
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) closeModal();
             });
         }
 
-        // --- GESTIÓN DE TEMAS ---
         function setTheme(themeName) {
             document.body.className = themeName;
-            // Guardar preferencia si quisieras
         }
 
-        // --- EFECTOS DE SCROLL (Header/Footer Dinámico) ---
         function setupScrollEffects() {
             let lastScrollY = window.scrollY;
             const header = document.getElementById('mainHeader');
             const footer = document.getElementById('mainFooter');
 
-            window.addEventListener('scroll', () => {
-                const currentScrollY = window.scrollY;
+            // En desktop escuchamos el scroll del div interno si body tiene overflow hidden
+            // En móvil escuchamos window
+            const scrollTarget = (window.innerWidth <= 768) ? window : document.querySelector('.canvas-area');
+
+            scrollTarget.addEventListener('scroll', () => {
+                const currentScrollY = (window.innerWidth <= 768) ? window.scrollY : scrollTarget.scrollTop;
 
                 if (currentScrollY > lastScrollY) {
-                    // Bajando: Header pequeño, Footer grande
                     header.classList.add('shrink');
                     footer.classList.add('expand');
                 } else {
-                    // Subiendo: Header normal, Footer normal
                     header.classList.remove('shrink');
                     footer.classList.remove('expand');
                 }
@@ -755,13 +565,10 @@
             });
         }
 
-        // --- IMPORTAR / EXPORTAR ---
-        
         function exportManifest() {
             const dataStr = JSON.stringify(nodesData, null, 2);
             const blob = new Blob([dataStr], { type: "application/json" });
             const url = URL.createObjectURL(blob);
-            
             const a = document.createElement('a');
             a.href = url;
             a.download = "manifiesto_1337.json";
@@ -778,28 +585,24 @@
         function importManifest(input) {
             const file = input.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const json = JSON.parse(e.target.result);
-                    // Validación básica
                     if (Array.isArray(json)) {
                         nodesData = json;
-                        // Guardar backup local
                         localStorage.setItem('metamapa_manifest_v1', JSON.stringify(nodesData));
-                        renderMap(); // Redibujar
-                        alert("Manifiesto importado y guardado correctamente.");
+                        renderMap();
+                        alert("Manifiesto importado correctamente.");
                     } else {
-                        alert("El archivo JSON no tiene el formato correcto (debe ser un Array).");
+                        alert("Formato incorrecto.");
                     }
                 } catch (err) {
-                    alert("Error al leer el archivo JSON.");
+                    alert("Error al leer JSON.");
                 }
             };
             reader.readAsText(file);
         }
-
     </script>
 </body>
 </html>
